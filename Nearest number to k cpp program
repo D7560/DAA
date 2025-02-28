@@ -1,0 +1,31 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int a[100],n,nearest,diff,k,i,current_diff;
+    cin>>n;
+    
+    for(i=0;i<n;i++)
+        cin>>a[i];
+    
+    cin>>k;
+    
+    nearest=a[0];
+    diff=abs(a[0]-k);
+    
+    
+    for(i=0;i<n;i++){
+         current_diff=abs(a[i]-k);
+        if(current_diff<diff){
+                nearest=a[i];
+                diff=current_diff;
+        }
+    }
+    cout<<nearest<<endl;
+    return 0;
+}
