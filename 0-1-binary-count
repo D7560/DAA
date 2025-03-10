@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    int zeros = 0;
+    int ones = 0;
+
+    if (n == 0) {
+        cout << "10" << endl; // Special case for n=0
+        return 0;
+    }
+
+    while (n > 0) {
+        if (n % 2 == 0) {
+            zeros++;
+        } else {
+            ones++;
+        }
+        n /= 2;
+    }
+
+    cout <<zeros<<endl;
+    cout<<ones<<endl;
+    return 0;
+}
