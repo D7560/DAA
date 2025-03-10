@@ -1,0 +1,89 @@
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+vector<vector<int>> matrixMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+    int rowsA = A.size();
+    if (rowsA == 0) {
+        return {}; // Return empty if A is empty
+    }
+    int colsA = A[0].size();
+    int rowsB = B.size();
+    if (rowsB == 0) {
+        return {}; // Return empty if B is empty
+    }
+    int colsB = B[0].size();
+
+    if (colsA != rowsB) {
+        return {}; // Return empty if multiplication not possible
+    }
+
+    vector<vector<int>> C(rowsA, vector<int>(colsB, 0));
+
+    for (int i = 0; i < rowsA; ++i) {
+        for (int j = 0; j < colsB; ++j) {
+            for (int k = 0; k < colsA; ++k) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    return C;
+}
+
+vector<vector<int>> parseMatrix(const string& line, int rows, int cols) {
+    stringstream ss(line);
+    vector<vector<int>> matrix(rows, vector<int>(cols));
+    int num;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (!(ss >> num)) {
+                return {}; // Return empty if parsing fails
+            }
+            matrix[i][j] = num;
+        }
+    }
+    return matrix;
+}
+
+int main() {
+    int rowsA, colsA, rowsB, colsB;
+    string lineA, lineB;
+
+    if (!(cin >> rowsA >> colsA >> rowsB >> colsB)) {
+        return 1; // Exit if input fails
+    }
+    cin.ignore(); // Consume newline
+
+    getline(cin, lineA);
+    getline(cin, lineB);
+
+    vector<vector<int>> A = parseMatrix(lineA, rowsA, colsA);
+    vector<vector<int>> B = parseMatrix(lineB, rowsB, colsB);
+
+    if (A.empty() || B.empty()) {
+        cout << "False" << endl;
+        return 0;
+    }
+
+    vector<vector<int>> C = matrixMultiply(A, B);
+
+    if (C.empty()) {
+        cout << "False" << endl;
+    } else {
+        for (const auto& row : C) {
+            for (size_t i = 0; i < row.size(); ++i) {
+                cout << row[i];
+                if (i < row.size() - 1) {
+                    cout << " ";
+                }
+            }
+            cout << endl;
+        }
+    }
+
+    return 0;
+}
